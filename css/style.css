@@ -1,0 +1,251 @@
+body{
+	background-color: #202020;
+	color: #808080;
+	font-family: Helvetica, Arial, sans-serif;
+	margin: 0;
+	height: 100%;
+}
+
+a, p, label{
+	margin: 0;
+	-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+p{
+	cursor: default;
+}
+
+a{
+	text-decoration: none;
+	color: #202020;
+	padding: 4px 8px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#titlediv{
+	width: 100%;
+	height: 50px;
+	padding: 3px 8px;
+	border-bottom: 1px solid #808080;
+	background-color: #404040;
+	overflow: hidden;
+	z-index: 10;
+	box-sizing: border-box;
+}
+
+#title{
+	font-family: 'Yellowtail', Helvetica, Arial, sans-serif;
+	font-size: 30px;
+	display: inline;
+	color: #e0b942;
+	margin: 0px 8px;
+}
+
+#instruction{
+	font-size: 1em;
+	display: inline;
+	color: #c0c0c0;
+}
+
+#export, #import{
+	background-color: #c0c0c0;
+	float: right;
+	margin: 8px 8px auto 0px;
+}
+
+#export:hover, #import:hover{
+	background-color: #e0b942;
+}
+
+#belowdiv{
+	position: absolute;
+    top: 50px;
+    bottom: 0;
+	width: 100%;
+}
+
+#imgspan{
+	position: absolute;
+    right: 280px;
+	left: 0px;
+	height: 100%;
+	overflow: hidden;
+}
+
+#canvasshow{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: -10;
+	border: #404040 1px solid;
+	transition: width 0.2s, height 0.2s;
+	-webkit-transition: width 0.2s, height 0.2s;
+	-moz-transition: width 0.2s, height 0.2s;
+	-o-transition: width 0.2s, height 0.2s;
+}
+
+#ctrlspan{
+	width: 280px;
+	height: 100%;
+	background-color: #303030;
+	margin: 0px;
+	float: right;
+	border-left: 1px solid #404040;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+#size{
+	position: absolute;
+	bottom: 0;
+	left: 8px;
+	padding: 12px 8px 0px 0px;
+	height: 32px;
+}
+
+.sizebuttom{
+	background-color: rgba(255, 255, 255, 0.4);
+	margin: auto 0px auto 8px;
+	line-height: 12px;
+	z-index: 10;
+}
+
+.sizebuttom:hover{
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+.catagory{
+	padding: 4px 6px 4px 6px;
+	border-top: 1px solid #202020;
+	color: #c0c0c0;
+}
+
+.filterdiv{
+	width: 100%;
+	height: 100%
+}
+
+.ctrldiv{
+	width: 100%;
+	padding: 8px 0px 8px 20px;
+}
+
+.execute{
+	margin: 0px 40px;
+	padding: 0;
+	float: right;
+	text-decoration: underline;
+	color: #808080;
+}
+
+.execute:hover{
+	color: #c0c0c0;
+}
+
+input[type="range"]{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: rgba(0, 0, 0, 0);
+	width: 120px;
+	margin: 0px 4px -2px 4px;
+	height: 12px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	-webkit-appearance: none;
+    height: 1px;
+	margin-bottom: 0px;
+    background-color: #808080;
+}
+
+input[type=range]::-moz-range-track {
+	-moz-appearance: none;
+    height: 1px;
+	margin-bottom: 0px;
+    background-color: #808080;
+}
+
+input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    margin-top: -6px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #303030; 
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 1px #808080; /*设置边框*/
+}
+
+input[type=range]::-moz-range-thumb{
+    -moz-appearance:none;
+    width: 12px;
+	height: 12px;
+    margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #303030; 
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 1px #808080; /*设置边框*/
+}
+
+input[type=range]:focus{
+    outline: none;
+}
+
+input[type=text]
+{
+	outline: none;
+	color: #808080;
+	background-color: #303030;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	border: solid 1px #808080;
+	width: 56px;
+	padding: 1px 4px;
+	margin: 0px 24px 0px 0px;
+}
+
+label{
+	width: 64px;
+	line-height: 16px;
+	padding: 4px 0px;
+	display: inline-block;
+}
+
+.center{
+	width: 24px;
+	line-height: 16px;
+	padding: 4px 0px;
+	display: inline-block;
+}
+
+.num{
+	width: 36px;
+	display: inline-block;
+	padding: 0px 0px 0px 6px;
+}
+
+.inactive{
+	display: none;
+}
+
+.hover{
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+select{
+	color: #808080;
+	background-color: #303030;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	border: solid 1px #808080;
+	width: 150px;
+	margin: 0px 6px 0px 6px;
+}
+
+select:focus{
+    outline: none;
+}
