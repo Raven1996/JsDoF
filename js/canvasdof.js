@@ -50,10 +50,8 @@ function depthOfFieldEffect(fnumber, focus, gamma=2.2) {
 	for (var i = 0; i < fullH; i++)
 		for (var j = 0; j < fullW; j++) {
 			var p = (i*fullW + j)<<2;
-			var totalW2  = 0, totalR2 = 0, totalG2 = 0, totalB2 = 0;  // above
-			var totalW1 = 0, totalR1 = 0, totalG1 = 0, totalB1 = 0;  // at
+			var totalW1  = 0, totalR1 = 0, totalG1 = 0, totalB1 = 0;  // above
 			var totalW0 = 0, totalR0 = 0, totalG0 = 0, totalB0 = 0;  // below
-			var totalW_ = 0, totalR_ = 0, totalG_ = 0, totalB_ = 0;  // background
 			var searchR_x = maxRadius_;
 			var xbegin = i-searchR_x>=0 ? -searchR_x : -i, xend = i+searchR_x<fullH ? searchR_x : fullH-i-1;
 			for (var dx = xbegin; dx <= xend; dx++) {
@@ -61,31 +59,22 @@ function depthOfFieldEffect(fnumber, focus, gamma=2.2) {
 				var ybegin = j-searchR_y>=0 ? -searchR_y : -j, yend = j+searchR_y<fullW ? searchR_y : fullW-j-1;
 				for (var dy = ybegin; dy <= yend; dy++) {
 					var pp = ((i+dx)*fullW + j+dy)<<2;
-					var blurR = radius[tmpPxArr[pp|3]];
 					var distance = Math.sqrt(dx*dx + dy*dy);
 					if (tmpPxArr[pp|3] > tmpPxArr[p|3]) {  // above
+						var blurR = radius[tmpPxArr[pp|3]];
 						if (distance > blurR+1) continue;
 						var ratioR = ratio[tmpPxArr[pp|3]];
-						var wt = distance<blurR ? ratioR : (blurR+1-distance)*ratioR; 
-						totalW2 += wt;
-						totalR2 += tmpPxArr[pp] * wt;
-						totalG2 += tmpPxArr[pp|1] * wt;
-						totalB2 += tmpPxArr[pp|2] * wt;
-					}
-					else if (tmpPxArr[pp|3] == tmpPxArr[p|3]) {  // at
-						if (totalW2 >= 1 || distance > blurR+1) continue;
-						var ratioR = ratio[tmpPxArr[p|3]];
 						var wt = distance<blurR ? ratioR : (blurR+1-distance)*ratioR; 
 						totalW1 += wt;
 						totalR1 += tmpPxArr[pp] * wt;
 						totalG1 += tmpPxArr[pp|1] * wt;
 						totalB1 += tmpPxArr[pp|2] * wt;
 					}
-					else {  // below
-						blurR = radius[tmpPxArr[p|3]];
-						if (totalW2 + totalW1 >= 1 || distance > blurR+1) continue;
+					else if (tmpPxArr[pp|3] <= tmpPxArr[p|3]) {  // below
+						var blurR = radius[tmpPxArr[p|3]];
+						if (totalW1 >= 1 || distance > blurR+1) continue;
 						var ratioR = ratio[tmpPxArr[p|3]];
-						var wt = distance<blurR ? ratioR : (blurR+1-distance)*ratioR;
+						var wt = distance<blurR ? ratioR : (blurR+1-distance)*ratioR; 
 						totalW0 += wt;
 						totalR0 += tmpPxArr[pp] * wt;
 						totalG0 += tmpPxArr[pp|1] * wt;
@@ -93,27 +82,21 @@ function depthOfFieldEffect(fnumber, focus, gamma=2.2) {
 					}
 				}
 			}
-			if (totalW2 > 1) {
-				totalR2 /= totalW2;
-				totalG2 /= totalW2;
-				totalB2 /= totalW2;
-				totalW2 = 1;
+			if (totalW1 > 1) {
+				totalR1 /= totalW1;
+				totalG1 /= totalW1;
+				totalB1 /= totalW1;
+				totalW1 = 1;
 			}
-			if (totalW1 > 1-totalW2) {
-				totalR1 = totalR1 * (1-totalW2) / totalW1
-				totalG1 = totalG1 * (1-totalW2) / totalW1
-				totalB1 = totalB1 * (1-totalW2) / totalW1
-				totalW1 = 1-totalW2
+			if (totalW0 > 1-totalW1) {
+				totalR0 = totalR0 * (1-totalW1) / totalW0
+				totalG0 = totalG0 * (1-totalW1) / totalW0
+				totalB0 = totalB0 * (1-totalW1) / totalW0
+				totalW0 = 1-totalW1
 			}
-			if (totalW0 > 1-totalW2-totalW1) {
-				totalR0 = totalR0 * (1-totalW2-totalW1) / totalW0
-				totalG0 = totalG0 * (1-totalW2-totalW1) / totalW0
-				totalB0 = totalB0 * (1-totalW2-totalW1) / totalW0
-				totalW0 = 1-totalW2-totalW1
-			}
-			pxData[p] = Math.exp(Math.log((totalR2+totalR1+totalR0)/(totalW2+totalW1+totalW0)) * gamma) * 255;
-			pxData[p|1] = Math.exp(Math.log((totalG2+totalG1+totalG0)/(totalW2+totalW1+totalW0)) * gamma) * 255;
-			pxData[p|2] = Math.exp(Math.log((totalB2+totalB1+totalB0)/(totalW2+totalW1+totalW0)) * gamma) * 255;
+			pxData[p] = Math.exp(Math.log((totalR1+totalR0)/(totalW1+totalW0)) * gamma) * 255;
+			pxData[p|1] = Math.exp(Math.log((totalG1+totalG0)/(totalW1+totalW0)) * gamma) * 255;
+			pxData[p|2] = Math.exp(Math.log((totalB1+totalB0)/(totalW1+totalW0)) * gamma) * 255;
 			pxData[p|3] = 255;
 		}
 
