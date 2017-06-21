@@ -12,7 +12,7 @@ function setScaleType(type){
 window.onload = function(){
 			var image = new Image()
 			setCanvasById('canvashidden', 'canvasshow')	 // before using canvasfx function
-			image.src = 'img/tid.png'	// sample image is from http://www.polayoutu.com/collections/4
+			image.src = 'img/cornbox.png'	// sample image is from dofpro.com
 			image.onload = function(){
 				canvasA.setAttribute('width', image.width)
 				canvasA.setAttribute('height', image.height)
@@ -102,23 +102,29 @@ function importFile(file){
 function resetValues(){
 	var div = document.getElementsByClassName("div")
 	div[0].value="3.5"
-	div[1].value="0.5"
-	div[2].value="2.2"
+	div[1].value="127"
+	div[2].value="5"
+	div[3].value="2.2"
+	div[4].value="10"
 }
 
 function updateValues(){
 	var div = document.getElementsByClassName("div")
 	var value = document.getElementsByClassName("value")
 	value[0].innerText=(1*div[0].value).toFixed(1)
-	value[1].innerText=(1/(1-div[1].value)).toFixed(2)
-	value[2].innerText=(1*div[2].value).toFixed(1)
+	value[1].innerText=div[1].value
+	value[2].innerText=div[2].value
+	value[3].innerText=(1*div[3].value).toFixed(1)
+	value[4].innerText=div[4].value
 }
 
 function previewCanvas(){
 	var div = document.getElementsByClassName("div")
 	depthOfFieldEffect(parseFloat(div[0].value),
-				parseFloat(1-div[1].value),
-				parseFloat(div[2].value))
+				parseInt(255-div[1].value),
+				parseInt(div[2].value),
+				parseFloat(div[3].value),
+				parseInt(div[4].value))
 }
 
 

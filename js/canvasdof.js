@@ -13,7 +13,7 @@ function noEffect() {
 	ctxB.putImageData(imgData, 0, 0, 0, 0, canvasB.width, canvasB.height);
 }
 
-function depthOfFieldEffect(fnumber, focus, gamma=2.2) {
+function depthOfFieldEffect(fnumber, focus, foci, gamma=2.2, maxR) {
 	var imgData = ctxA.getImageData(0, 0, canvasA.width, canvasA.height);
 	var pxData = imgData.data;
 	var tmpPxArr = [];
@@ -34,14 +34,16 @@ function depthOfFieldEffect(fnumber, focus, gamma=2.2) {
 			tmpPxArr[p|1] = Math.exp(Math.log(pxData[p|1]/255) * gamma);
 			tmpPxArr[p|2] = Math.exp(Math.log(pxData[p|2]/255) * gamma);
 			tmpPxArr[p|3] = pxData[p|3];
-			if (pxData[p|3] < minZ) minZ = pxData[p|3];
-			if (pxData[p|3] > maxZ) maxZ = pxData[p|3];
+			if (tmpPxArr[p|3] < minZ) minZ = tmpPxArr[p|3];
+			if (tmpPxArr[p|3] > maxZ) maxZ = tmpPxArr[p|3];
 		}
 	var maxRadius = 0;
+	var t = 500*foci/focus/fnumber;
 	for (var i = minZ; i <= maxZ; i++) {
-		radius[i] = Math.abs(i/255 - focus) * 20 / fnumber;
-		ratio[i] =  1/(radius[i]+0.5)/(radius[i]+0.5)/Math.PI;
+		radius[i] = Math.abs(i-focus)/(255-i+foci)*t;
+		if (radius[i] > maxR) radius[i] = maxR;
 		if (radius[i] > maxRadius) maxRadius = radius[i];
+		ratio[i] =  1/(radius[i]+0.5)/(radius[i]+0.5)/Math.PI;
 	}
 	var maxRadius_=Math.ceil(maxRadius);
 	
